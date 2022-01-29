@@ -1,4 +1,4 @@
-# MoDL
+# J-MoDL
 
 PyTorch implementation of  J-MoDL: Joint Model-Based Deep Learning for Optimized Sampling and Reconstruction (Not official!)
 
