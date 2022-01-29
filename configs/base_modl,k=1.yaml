@@ -1,0 +1,29 @@
+config_name: base_modl
+description: "base config"
+
+epochs: 100
+
+dataset_name: jmodl_dataset
+dataset_params:
+  dataset_path: './data/'
+  sigma: 0.01
+
+val_data: False
+batch_size: 1
+
+model_name: base_jmodl
+model_params:
+  k_iters: 1
+  lam: 0.05
+  sigma: 0.01
+  denoiser_type: unet #[unet/small]
+init_mask_path: './data/initmask6.npz'
+
+restore_weights: False #False, best, inter, final
+restore_path: 
+
+loss_name: complex_MSE
+score_names: ['PSNR', 'SSIM']
+optim_name: Adam
+optim_params:
+  lr: 0.001

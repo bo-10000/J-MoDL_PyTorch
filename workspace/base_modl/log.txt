@@ -1,0 +1,120 @@
+config path: configs/base_modl,k=1.yaml
+workspace: ./workspace/base_modl
+description: base config
+
+
+train start: 2022-01-29 20:10:26
+-----------------------
+epoch 0/100 train score: 32.9970	loss: 0.0018
+epoch 1/100 train score: 36.0501	loss: 0.0008
+epoch 2/100 train score: 36.5139	loss: 0.0007
+epoch 3/100 train score: 36.9999	loss: 0.0007
+epoch 4/100 train score: 37.1759	loss: 0.0006
+epoch 5/100 train score: 37.4914	loss: 0.0006
+epoch 6/100 train score: 37.6979	loss: 0.0006
+epoch 7/100 train score: 37.8155	loss: 0.0005
+epoch 8/100 train score: 37.8135	loss: 0.0005
+epoch 9/100 train score: 37.9565	loss: 0.0005
+epoch 10/100 train score: 38.0692	loss: 0.0005
+epoch 11/100 train score: 38.1475	loss: 0.0005
+epoch 12/100 train score: 37.5728	loss: 0.0006
+epoch 13/100 train score: 38.0326	loss: 0.0005
+epoch 14/100 train score: 38.1965	loss: 0.0005
+epoch 15/100 train score: 38.2602	loss: 0.0005
+epoch 16/100 train score: 38.2713	loss: 0.0005
+epoch 17/100 train score: 38.3309	loss: 0.0005
+epoch 18/100 train score: 38.3188	loss: 0.0005
+epoch 19/100 train score: 38.2842	loss: 0.0005
+epoch 20/100 train score: 38.3596	loss: 0.0005
+epoch 21/100 train score: 38.3882	loss: 0.0005
+epoch 22/100 train score: 38.4210	loss: 0.0005
+epoch 23/100 train score: 38.4507	loss: 0.0005
+epoch 24/100 train score: 38.4279	loss: 0.0005
+epoch 25/100 train score: 38.4377	loss: 0.0005
+epoch 26/100 train score: 38.4831	loss: 0.0005
+epoch 27/100 train score: 38.4805	loss: 0.0005
+epoch 28/100 train score: 38.5114	loss: 0.0005
+epoch 29/100 train score: 38.5180	loss: 0.0005
+epoch 30/100 train score: 38.5025	loss: 0.0005
+epoch 31/100 train score: 38.4785	loss: 0.0005
+epoch 32/100 train score: 38.5192	loss: 0.0005
+epoch 33/100 train score: 38.5519	loss: 0.0005
+epoch 34/100 train score: 38.5605	loss: 0.0005
+epoch 35/100 train score: 38.5444	loss: 0.0005
+epoch 36/100 train score: 38.6098	loss: 0.0005
+epoch 37/100 train score: 38.5423	loss: 0.0005
+epoch 38/100 train score: 38.3447	loss: 0.0005
+epoch 39/100 train score: 38.4064	loss: 0.0005
+epoch 40/100 train score: 38.6342	loss: 0.0005
+epoch 41/100 train score: 38.6616	loss: 0.0004
+epoch 42/100 train score: 38.6770	loss: 0.0004
+epoch 43/100 train score: 38.7092	loss: 0.0004
+epoch 44/100 train score: 38.6573	loss: 0.0004
+epoch 45/100 train score: 38.6991	loss: 0.0004
+epoch 46/100 train score: 38.6286	loss: 0.0004
+epoch 47/100 train score: 38.6365	loss: 0.0004
+epoch 48/100 train score: 38.7169	loss: 0.0004
+epoch 49/100 train score: 38.7107	loss: 0.0004
+epoch 50/100 train score: 38.7250	loss: 0.0004
+epoch 51/100 train score: 38.7080	loss: 0.0004
+epoch 52/100 train score: 38.7527	loss: 0.0004
+epoch 53/100 train score: 38.7516	loss: 0.0004
+epoch 54/100 train score: 38.7177	loss: 0.0004
+epoch 55/100 train score: 38.7426	loss: 0.0004
+epoch 56/100 train score: 38.7728	loss: 0.0004
+epoch 57/100 train score: 38.7180	loss: 0.0004
+epoch 58/100 train score: 38.7144	loss: 0.0004
+epoch 59/100 train score: 38.7557	loss: 0.0004
+epoch 60/100 train score: 38.7937	loss: 0.0004
+epoch 61/100 train score: 38.8070	loss: 0.0004
+epoch 62/100 train score: 38.8059	loss: 0.0004
+epoch 63/100 train score: 38.7272	loss: 0.0004
+epoch 64/100 train score: 38.7928	loss: 0.0004
+epoch 65/100 train score: 38.8042	loss: 0.0004
+epoch 66/100 train score: 38.8151	loss: 0.0004
+epoch 67/100 train score: 38.7850	loss: 0.0004
+epoch 68/100 train score: 38.7947	loss: 0.0004
+epoch 69/100 train score: 38.8254	loss: 0.0004
+epoch 70/100 train score: 38.8579	loss: 0.0004
+epoch 71/100 train score: 38.8535	loss: 0.0004
+epoch 72/100 train score: 38.8618	loss: 0.0004
+epoch 73/100 train score: 38.8420	loss: 0.0004
+epoch 74/100 train score: 38.8668	loss: 0.0004
+epoch 75/100 train score: 38.8364	loss: 0.0004
+epoch 76/100 train score: 38.8107	loss: 0.0004
+epoch 77/100 train score: 37.7971	loss: 0.0005
+epoch 78/100 train score: 38.7127	loss: 0.0004
+epoch 79/100 train score: 38.8225	loss: 0.0004
+epoch 80/100 train score: 38.8478	loss: 0.0004
+epoch 81/100 train score: 38.8935	loss: 0.0004
+epoch 82/100 train score: 38.8977	loss: 0.0004
+epoch 83/100 train score: 38.9230	loss: 0.0004
+epoch 84/100 train score: 38.9171	loss: 0.0004
+epoch 85/100 train score: 38.9192	loss: 0.0004
+epoch 86/100 train score: 38.9444	loss: 0.0004
+epoch 87/100 train score: 38.9492	loss: 0.0004
+epoch 88/100 train score: 38.9334	loss: 0.0004
+epoch 89/100 train score: 38.9471	loss: 0.0004
+epoch 90/100 train score: 38.9604	loss: 0.0004
+epoch 91/100 train score: 38.9690	loss: 0.0004
+epoch 92/100 train score: 38.9491	loss: 0.0004
+epoch 93/100 train score: 38.9636	loss: 0.0004
+epoch 94/100 train score: 38.9817	loss: 0.0004
+epoch 95/100 train score: 38.9901	loss: 0.0004
+epoch 96/100 train score: 38.9977	loss: 0.0004
+epoch 97/100 train score: 38.9845	loss: 0.0004
+epoch 98/100 train score: 38.9956	loss: 0.0004
+epoch 99/100 train score: 38.9911	loss: 0.0004
+-----------------------
+total train time: 11.67 min
+best score: 38.9911
+
+
+test start: 2022-01-29 20:26:12
+
+
+test start: 2022-01-29 20:28:47
+test PSNR score: 38.7262
+test SSIM score: 0.9786
+-----------------------
+total test time: 0.01 min
