@@ -48,4 +48,4 @@ Saved models are provided.
 
 Result image:
 
-![alt text](https://github.com/bo-10000/J-MoDL_PyTorch/edit/master/result.png)
+![alt text](https://github.com/bo-10000/J-MoDL_PyTorch/blob/master/result.png)
