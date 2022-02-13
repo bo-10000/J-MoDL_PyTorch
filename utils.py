@@ -4,6 +4,7 @@ import random
 import torch
 import matplotlib.pyplot as plt
 
+#train utils ==============================
 class Logger():
     def __init__(self, log_dir):
         self.log_dir = log_dir
@@ -27,6 +28,29 @@ def get_init_mask(init_mask_path):
     initx = np.where(initx==True)[0][:,None].astype(np.float32)/len(initx) #(num_kspace*acc_rate, 1)
     inity = np.where(inity==True)[0][:,None].astype(np.float32)/len(inity) #(num_kspace*acc_rate, 1)
     return initx, inity
+
+def generate_init_mask(N, m, ACS=0.04):
+    """
+    Acc factor = round(N/m)
+    <Params>
+    :N: number of total lines
+    :m: number of sampling locations, including the ACS lines
+    :ACS: ratio of ACS lines (ACS line # = round(N*ACS))
+    <Usage>
+    :init6x = create_mask(256, 96)
+    :init6y = create_mask(232, 101)
+    """
+    n_ACS = round(N*ACS)
+    ACS_start = round(N/2) - round(n_ACS/2)
+
+    a = list(range(0, ACS_start)) + list(range(ACS_start + n_ACS, N))
+    maskloc = np.random.choice(a, size=m-n_ACS, replace=False)
+    maskloc = np.sort(np.append(maskloc, list(range(ACS_start, ACS_start + n_ACS))))
+    
+    mask = np.zeros((N, ), dtype=np.bool)
+    mask[maskloc] = True
+    
+    return mask
 
 def clip_mask(model):
     with torch.no_grad():
@@ -60,128 +84,10 @@ def r2c(real_img, axis=0):
         raise NotImplementedError
     return complex_img
 
-def fft_new(image, ndim, normalized=False):
-    norm = "ortho" if normalized else None
-    dims = tuple(range(-ndim, 0))
-
-    image = torch.view_as_real(
-        torch.fft.fftn(  # type: ignore
-            torch.view_as_complex(image.contiguous()), dim=dims, norm=norm
-        )
-    )
-    return image
-
-
-def ifft_new(image, ndim, normalized=False):
-    norm = "ortho" if normalized else None
-    dims = tuple(range(-ndim, 0))
-    image = torch.view_as_real(
-        torch.fft.ifftn(  # type: ignore
-            torch.view_as_complex(image.contiguous()), dim=dims, norm=norm
-        )
-    )
-    return image
-
-def roll(x, shift, dim):
-    """
-    Similar to np.roll but applies to PyTorch Tensors
-    """
-    if isinstance(shift, (tuple, list)):
-        assert len(shift) == len(dim)
-        for s, d in zip(shift, dim):
-            x = roll(x, s, d)
-        return x
-    shift = shift % x.size(dim)
-    if shift == 0:
-        return x
-    left = x.narrow(dim, 0, x.size(dim) - shift)
-    right = x.narrow(dim, x.size(dim) - shift, shift)
-    return torch.cat((right, left), dim=dim)
-
-def fftshift(x, dim=None):
-    """
-    Similar to np.fft.fftshift but applies to PyTorch Tensors
-    """
-    if dim is None:
-        dim = tuple(range(x.dim()))
-        shift = [dim // 2 for dim in x.shape]
-    elif isinstance(dim, int):
-        shift = x.shape[dim] // 2
-    else:
-        shift = [x.shape[i] // 2 for i in dim]
-    return roll(x, shift, dim)
-
-
-def ifftshift(x, dim=None):
-    """
-    Similar to np.fft.ifftshift but applies to PyTorch Tensors
-    """
-    if dim is None:
-        dim = tuple(range(x.dim()))
-        shift = [(dim + 1) // 2 for dim in x.shape]
-    elif isinstance(dim, int):
-        shift = (x.shape[dim] + 1) // 2
-    else:
-        shift = [(x.shape[i] + 1) // 2 for i in dim]
-    return roll(x, shift, dim)
-
-def fft2(data):
-    """
-    Apply centered 2 dimensional Fast Fourier Transform.
-    Args:
-        data (torch.Tensor): Complex valued input data containing at least 3 dimensions: dimensions
-            -3 & -2 are spatial dimensions and dimension -1 has size 2. All other dimensions are
-            assumed to be batch dimensions.
-    Returns:
-        torch.Tensor: The FFT of the input.
-    """
-    assert data.size(-1) == 2
-    data = ifftshift(data, dim=(-3, -2))
-    data = fft_new(data, 2, normalized=True)
-    data = fftshift(data, dim=(-3, -2))
-    return data
-
-def ifft2(data):
-    """
-    Apply centered 2-dimensional Inverse Fast Fourier Transform.
-    Args:
-        data (torch.Tensor): Complex valued input data containing at least 3 dimensions: dimensions
-            -3 & -2 are spatial dimensions and dimension -1 has size 2. All other dimensions are
-            assumed to be batch dimensions.
-    Returns:
-        torch.Tensor: The IFFT of the input.
-    """
-    assert data.size(-1) == 2
-    data = ifftshift(data, dim=(-3, -2))
-    data = ifft_new(data, 2, normalized=True)
-    data = fftshift(data, dim=(-3, -2))
-    return data
-
-def complex_matmul(a, b):
-    # function to multiply two complex variable in pytorch, the real/imag channel are in the third last two channels ((batch), (coil), 2, nx, ny).
-    if len(a.size()) == 3:
-        return torch.cat(((a[0] * b[0] - a[1] * b[1]).unsqueeze(0),
-                          (a[0] * b[1] + a[1] * b[0]).unsqueeze(0)), dim=0)
-    if len(a.size()) == 4:
-        return torch.cat(((a[:, 0] * b[:, 0] - a[:, 1] * b[:, 1]).unsqueeze(1),
-                          (a[:, 0] * b[:, 1] + a[:, 1] * b[:, 0]).unsqueeze(1)), dim=1)
-    if len(a.size()) == 5:
-        return torch.cat(((a[:, :, 0] * b[:, :, 0] - a[:, :, 1] * b[:, :, 1]).unsqueeze(2),
-                          (a[:, :, 0] * b[:, :, 1] + a[:, :, 1] * b[:, :, 0]).unsqueeze(2)), dim=2)
-
-def complex_conj(a):
-    # function to multiply two complex variable in pytorch, the real/imag channel are in the last two channels.
-    if len(a.size()) == 3:
-        return torch.cat((a[0].unsqueeze(0), -a[1].unsqueeze(0)), dim=0)
-    if len(a.size()) == 4:
-        return torch.cat((a[:, 0].unsqueeze(1), -a[:, 1].unsqueeze(1)), dim=1)
-    if len(a.size()) == 5:
-        return torch.cat((a[:, :, 0].unsqueeze(2), -a[:, :, 1].unsqueeze(2)), dim=2)
-
+#metrics ==================================================
 def complex_MSE(y_pred, y):
     return torch.mean(torch.pow(torch.abs(y_pred-y), 2))
 
-#metrics ==================================================
 def psnr_batch(y_batch, y_pred_batch):
     #calculate psnr for every batch and return mean
     mean_psnr = 0
@@ -237,7 +143,7 @@ def display_img(x, mask, y, y_pred, score=None):
     ax5 = plt.subplot2grid((2,6), (1,4), colspan=2)
     ax1.imshow(x, cmap='gray')
     ax1.set_title('zero-filled')
-    ax2.imshow(np.fft.fftshift(mask), cmap='gray')
+    ax2.imshow(mask, cmap='gray')
     ax2.set_title('mask')
     ax3.imshow(y, cmap='gray')
     ax3.set_title('GT')
