@@ -55,6 +55,8 @@ def main(args):
     logger.write('test start: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     start = time.time()
+    if args.seed: #for random noise
+        set_seeds(args.seed)
 
     running_score = defaultdict(int)
 
@@ -73,7 +75,7 @@ def main(args):
             running_score[score_name] += score_f(gt, x_rec) * x_rec.shape[0]
         if args.write_image > 0 and (i % args.write_image == 0):
             mask = get_mask_img(model.at.kx.detach().cpu(), model.at.ky.detach().cpu(), *x_rec.shape[-2:])
-            writer.add_figure('img', display_img(x_u[-1], mask, gt[-1], x_rec[-1], psnr(gt[-1], x_rec[-1])), i)
+            writer.add_figure('img', display_img(x_u[-1], mask, gt[-1], x_rec[-1], psnr(gt[-1], x_rec[-1], gt[-1].max())), i)
 
     epoch_score = {score_name: score / len(dataloader.dataset) for score_name, score in running_score.items()}
     for score_name, score in epoch_score.items():
@@ -93,6 +95,7 @@ if __name__ == "__main__":
     parser.add_argument("--tensorboard_dir", type=str, default='./runs')
     parser.add_argument("--batch_size", type=int, default=None)
     parser.add_argument("--write_image", type=int, default=0)
+    parser.add_argument("--seed", type=int, default=1)
 
     args = parser.parse_args()
 
