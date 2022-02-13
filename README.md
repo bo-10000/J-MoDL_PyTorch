@@ -45,3 +45,7 @@ scripts/test.sh
 Saved models are provided.
 
 `workspace/base_modl/checkpoints/final.epoch0099-score38.9911.pth` 
+
+Result image:
+
+![alt text](https://github.com/bo-10000/J-MoDL_PyTorch/blob/master/result.png)
