@@ -16,10 +16,11 @@ class Logger():
             print(log_message)
 
 def set_seeds(seed):
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    np.random.seed(seed)
-    random.seed(seed)
+    if seed is not None:
+        torch.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+        np.random.seed(seed)
+        random.seed(seed)
 
 def get_init_mask(init_mask_path):
     init_mask = np.load(init_mask_path)
