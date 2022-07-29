@@ -68,6 +68,9 @@ def setup(args):
     return configs, device, epochs, start_epoch, phases, workspace, logger, writers, saver, dataloaders, model, loss_f, score_fs, val_score_name, optimizer, scheduler
 
 def main(args):
+    start = time.time()
+    set_seeds(args.seed)
+    
     configs, device, epochs, start_epoch, phases, workspace, logger, writers, saver, \
         dataloaders, model, loss_f, score_fs, val_score_name, optimizer, scheduler = setup(args)
     """
@@ -86,10 +89,6 @@ def main(args):
     logger.write('\n')
     logger.write('train start: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     logger.write('-----------------------')
-
-    start = time.time()
-    if args.seed:
-        set_seeds(args.seed)
 
     for epoch in range(start_epoch, epochs):
         for phase in phases: #['train', 'val'] or ['train']
