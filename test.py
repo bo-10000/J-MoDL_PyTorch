@@ -49,14 +49,13 @@ def setup(args):
     return configs, device, workspace, logger, writer, dataloader, model, score_fs
 
 def main(args):
+    start = time.time()
+    set_seeds(args.seed) #for random noise
+    
     configs, device, workspace, logger, writer, dataloader, model, score_fs = setup(args)
 
     logger.write('\n')
     logger.write('test start: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-    start = time.time()
-    if args.seed: #for random noise
-        set_seeds(args.seed)
 
     running_score = defaultdict(int)
 
